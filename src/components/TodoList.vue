@@ -57,7 +57,6 @@ export default {
         this.tasks.push(this.item);
         this.newTaskName = "";
         axios.post(url, this.item);
-        this.getTask(this.baseUrl)
       }
     },
     deleteTask(arrayIndex) {
@@ -71,7 +70,6 @@ export default {
           .then((response) => {
             // handle success
             this.tasks = response.data
-            console.log(this.tasks[this.tasks.length])
             return response.data
           })
           .catch(function(error) {
@@ -85,6 +83,12 @@ export default {
   },
    mounted() {
       this.$nextTick(this.getTask(this.baseUrl))
+      let a =  this.tasks
+      console.log(a)
+      if(a !== undefined){
+        this.id = a
+      }
+      
     }
 };
 </script>
