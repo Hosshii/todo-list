@@ -14,7 +14,7 @@
     <div class="task-list">
       <div class="done">
         <h2>完了</h2>
-        <div v-for="(task,a) in tasks" :key="task.doTask" v-if="task.taskFinish">
+        <div v-for="(task,a) in tasks" :key="task.id" v-if="task.taskFinish">
           <div class="name">タスク: {{task.doTask}}</div>
           <button @click="task.taskFinish= false">未完へ</button>
           <button @click="deleteTask(a)">削除</button>
@@ -23,7 +23,7 @@
 
       <div class="not-done">
         <h2>未完</h2>
-        <div v-for="(task,a) in tasks" :key="task.doTask" v-if="!task.taskFinish">
+        <div v-for="(task,a) in tasks" :key="task.id" v-if="!task.taskFinish">
           <div class="name">タスク:{{task.doTask}}</div>
           <button @click="task.taskFinish = true">完了！</button>
           <button @click="deleteTask(a)">削除</button>
@@ -57,21 +57,21 @@ export default {
         this.tasks.push(this.item);
         this.newTaskName = "";
         axios.post(url, this.item);
+        this.getTask(this.baseUrl)
       }
     },
     deleteTask(arrayIndex) {
       this.tasks.splice(arrayIndex, 1);
       //console.log(arrayIndex)
-      axios.delete(this.baseUrl);
+      //axios.delete(this.baseUrl+"/"+arrayIndex);
     },
-    
     getTask(url) {
       axios
           .get(url)
-          .then(function(response) {
+          .then((response) => {
             // handle success
-            //this.tasks = response.data
-            console.log(response.data)
+            this.tasks = response.data
+            console.log(this.tasks[this.tasks.length])
             return response.data
           })
           .catch(function(error) {
@@ -84,7 +84,7 @@ export default {
     }
   },
    mounted() {
-      //this.$nextTick(this.tasks = this.getTask(this.baseUrl))
+      this.$nextTick(this.getTask(this.baseUrl))
     }
 };
 </script>
