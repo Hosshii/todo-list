@@ -7,7 +7,7 @@
     <div>
       <label for>
         タスク
-        <input v-model="newTaskName" />
+        <input v-model="newTaskName">
       </label>
       <button @click="addTask(baseUrl)">add</button>
     </div>
